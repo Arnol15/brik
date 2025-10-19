@@ -1,0 +1,626 @@
+/* css/style.css */
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist:wght@400;500;700&family=Geist+Mono:wght@400;700&display=swap');
+/* Import React Quill CSS */
+@import "react-quill-new/dist/quill.snow.css";
+
+
+/* Optional: add your custom styles below */
+
+/* Light/Dark mode */
+:root {
+    color-scheme: light dark;
+
+    --color-background: #ffffff;
+    --color-foreground: #171717;
+
+    --color-green-50: #30AF5B;
+    --color-green-90: #292C27;
+
+    --color-gray-10: #EEEEEE;
+    --color-gray-20: #A2A2A2;
+    --color-gray-30: #7B7B7B;
+    --color-gray-50: #585858;
+    --color-gray-90: #141414;
+
+    --color-orange-50: #FF814C;
+    --color-blue-70: #021639;
+    --color-yellow-50: #FEC601;
+
+    --font-sans: 'Inter', sans-serif;
+    --font-heading: 'Geist', sans-serif;
+    --font-mono: 'Geist Mono', monospace;
+
+    --breakpoint-xs: 25rem;
+    /* 400px */
+    --breakpoint-3xl: 105rem;
+    /* 1680px */
+    --breakpoint-4xl: 137.5rem;
+    /* 2200px */
+
+    --container-10xl: 94.5rem;
+    /* 1512px */
+    --radius-5xl: 40px;
+    --radius-3xl: 24px;
+    --radius-2xl: 16px;
+    --radius-1xl: 8px;
+    --radius-lg: 3px;
+
+    --feature-bg: url('./images/feature-bg.png');
+    --pattern: url('./images/pattern.png');
+
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+}
+
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-heading);
+}
+
+code,
+pre {
+    font-family: var(--font-mono);
+}
+
+/* Custom styles for Tailwind CDN project */
+
+/* Manual clamp for previews */
+.line-clamp-5 {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Typography styling */
+.prose {
+    color: #374151;
+    line-height: 1.7;
+    font-size: 1rem;
+    max-width: none;
+}
+
+.dark .prose {
+    color: #d1d5db;
+}
+
+/* (other prose rules...) */
+
+
+
+/* === Buttons === */
+.btn_white {
+    border: 1px solid white;
+    background: white;
+    padding: 0.75rem 2rem;
+    color: var(--color-green-50);
+}
+
+.btn_white_text {
+    border: 1px solid white;
+    background: white;
+    padding: 0.75rem 2rem;
+    color: var(--color-gray-90);
+}
+
+.btn_bh_green {
+    border: 1px solid #0A5340;
+    background: #0A5340;
+    padding: 1.25rem 2rem;
+    color: white;
+}
+
+.btn_dark_green {
+    background: var(--color-green-90);
+    padding: 1rem 2rem;
+    color: white;
+    transition: all 0.3s;
+}
+
+.btn_dark_green:hover {
+    background: black;
+}
+
+.btn_dark_green_outline {
+    border: 1px solid var(--color-gray-20);
+    background: var(--color-green-90);
+    padding: 1.25rem 2rem;
+    color: white;
+}
+
+/* === Layout Utilities === */
+.max-container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1440px;
+}
+
+.padding-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .padding-container {
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+}
+
+/* Flex helpers */
+.flexCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flexBetween {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flexStart {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.flexEnd {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Typography */
+.regular-64 {
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.regular-40 {
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.regular-32 {
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.regular-24 {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.regular-20 {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.regular-18 {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.regular-16 {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.regular-14 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.medium-14 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.bold-88 {
+    font-size: 88px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.bold-64 {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.bold-52 {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.bold-40 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.bold-32 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.bold-20 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.bold-18 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.bold-16 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.left-indent {
+    padding-left: 1.5rem;
+}
+
+/* Background images */
+.bg-img-1 {
+    background-image: var(--bg-img-1);
+}
+
+.bg-img-2 {
+    background-image: var(--bg-img-2);
+}
+
+.feature-bg {
+    background-image: var(--feature-bg);
+}
+
+.bg-pattern {
+    background-image: var(--pattern);
+}
+
+.bg-pattern-2 {
+    background-image: var(--pattern-2);
+}
+
+/* Hero */
+.hero-map {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background: var(--pattern-2);
+    background-size: cover;
+    background-position: center;
+}
+
+/* Camp */
+/* Camp Quote */
+.camp-quote {
+    position: absolute;
+    right: -1.5rem;
+    /* -right-6 */
+    bottom: 1rem;
+    /* bottom-4 */
+    width: 140px;
+    /* w-[140px] */
+}
+
+@media (min-width: 1024px) {
+
+    /* lg */
+    .camp-quote {
+        bottom: 2.5rem;
+        /* bottom-10 */
+    }
+}
+
+@media (min-width: 1280px) {
+
+    /* xl */
+    .camp-quote {
+        right: -2rem;
+        /* -right-8 */
+        width: 186px;
+        /* w-[186px] */
+    }
+}
+
+@media (min-width: 1920px) {
+
+    /* 3xl (custom, adjust if needed) */
+    .camp-quote {
+        right: 0;
+    }
+}
+
+/* Feature Phone */
+.feature-phone {
+    position: absolute;
+    top: 13%;
+    /* top-[13%] */
+    z-index: 10;
+    /* z-10 */
+    display: none;
+    /* hidden */
+    max-width: 1500px;
+    /* max-w-[1500px] */
+    transform: rotate(15deg);
+    /* rotate-[15deg] */
+}
+
+@media (min-width: 768px) {
+
+    /* md */
+    .feature-phone {
+        left: -4rem;
+        /* -left-16 */
+    }
+}
+
+@media (min-width: 1024px) {
+
+    /* lg */
+    .feature-phone {
+        display: flex;
+        /* lg:flex */
+    }
+}
+
+@media (min-width: 1920px) {
+
+    /* 3xl (custom) */
+    .feature-phone {
+        left: 5rem;
+        /* left-20 */
+    }
+}
+
+
+
+/* Get App */
+/* Main container */
+.get-app {
+    position: relative;
+    max-width: var(--container-10xl);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    background: var(--color-green-90) var(--pattern) center/cover no-repeat;
+    padding: 4rem 3rem;
+    color: white;
+    border-radius: var(--radius-1xl);
+    overflow: hidden;
+}
+
+/* Headings */
+.get-app h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.3;
+    max-width: 700px;
+}
+
+/* Paragraph */
+.get-app p {
+    color: var(--color-gray-10);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Social icons */
+.get-app .socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.get-app .socials a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease;
+}
+
+.get-app .socials a:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.get-app .socials img {
+    filter: invert(1);
+    width: 28px;
+    height: 28px;
+}
+
+/* Right image (controller) */
+.get-app img.feature-image {
+    border-radius: var(--radius-2xl);
+    max-width: 60%;
+    /* 🔹 Reduced from 100% */
+    height: auto;
+    object-fit: contain;
+}
+
+/* Responsive layout */
+@media (max-width: 1024px) {
+    .get-app {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .get-app h2 {
+        margin: 0 auto;
+    }
+
+    .get-app .socials {
+        justify-content: center;
+    }
+
+    .get-app img.feature-image {
+        max-width: 60%;
+        /* 🔹 Even smaller on mobile */
+        margin: 0 auto;
+    }
+}
+
+
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Hide navbar */
+.hide-navbar nav {
+    display: none !important;
+}
+
+
+/* ==============================
+   Global Defaults
+   ============================== */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--color-background);
+    color: var(--color-foreground);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    margin-right: 20px;
+    transition: font-weight 0.3s ease;
+}
+
+nav a:hover {
+    font-weight: bold;
+}
+
+.menu-icon {
+    display: none;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 250px;
+    height: 100%;
+    background: #fff;
+    transition: left 0.3s ease;
+    padding: 20px;
+}
+
+.mobile-menu.active {
+    left: 0;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* hide scrollbar */
+/* hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Parallax hover effect */
+.parallax-card img {
+    transition: transform 0.4s ease;
+}
+
+.parallax-card:hover img {
+    transform: scale(1.05);
+}
+
+.section-overlay {
+    background: var(--color-green-50);
+    color: var(--color-gray-90);
+    border-radius: var(--radius-5xl);
+}
+
+/* Overlay card position */
+.overlay-card {
+    max-width: 90%;
+}
+
+
+/* Services Section */
+.flexCenter {
+    @apply flex items-center justify-center;
+}
+
+.max-container {
+    @apply mx-auto w-full max-w-[1440px];
+}
+
+.padding-container {
+    @apply px-6 md:px-20;
+}
+
+.bold-32 {
+    @apply text-[32px] font-bold leading-tight;
+}
+
+.lg\:bold-40 {
+    @apply text-[40px] font-bold leading-tight;
+}
+
+/* Get App */
