@@ -45,7 +45,7 @@ $posts = mysqli_query($connection, "SELECT * FROM posts ORDER BY created_at DESC
     </div>
 </section>
 
-<?php include __DIR__ . '/partials/footer.php'; ?>
+<?php include __DIR__ . '/partials/infooter.php'; ?>
 
 </body>
 </html>

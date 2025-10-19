@@ -2,7 +2,7 @@
 // Connect to your root-level database config (adjust if needed)
 require_once __DIR__ . '/../config/database.php';
 
-// 📰 Fetch only 2 latest posts (featured first)
+// Fetch only 2 latest posts (featured first)
 $query = "
   SELECT id, title, body, thumbnail, category_id, author_id, is_featured, created_at 
   FROM posts 
@@ -29,7 +29,7 @@ if ($result && mysqli_num_rows($result) > 0) {
       <?php foreach ($postsData as $post): ?>
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden flex flex-col transition-colors hover:shadow-xl duration-300">
           
-          <!-- 🖼️ Thumbnail -->
+          <!--  Thumbnail -->
           <div class="relative w-full h-64 sm:h-72">
             <img 
               src="<?= htmlspecialchars($post['thumbnail']) ?>" 
@@ -44,7 +44,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             <?php endif; ?>
           </div>
 
-          <!-- 📝 Post Content -->
+          <!--  Post Content -->
           <div class="p-6 flex flex-col flex-1">
             <span class="text-green-600 dark:text-green-400 uppercase tracking-wide text-sm font-semibold">
               Solution Spotlight
@@ -55,7 +55,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             </h3>
 
             <?php
-              // ✂️ Limit body preview to 50 words
+              //  Limit body preview to 50 words
               $body = strip_tags($post['body']);
               $words = explode(' ', $body);
               $short = implode(' ', array_slice($words, 0, 50)) . (count($words) > 50 ? '...' : '');
@@ -75,7 +75,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             </a>
           </div>
 
-          <!-- 📅 Post Meta -->
+          <!-- Post Meta -->
           <div class="px-6 pb-4 text-sm text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700">
             Posted on <?= date('F j, Y', strtotime($post['created_at'])) ?>
           </div>

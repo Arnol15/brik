@@ -22,7 +22,7 @@ unset($_SESSION['add-user-data']);
 
   <div class="bg-white dark:bg-[#2a3b45] shadow-lg rounded-2xl w-full max-w-5xl p-8 mx-4 md:mx-auto flex flex-col md:flex-row gap-10 transition-colors duration-300">
     
-    <!-- 🖼️ Avatar Upload + Preview Section -->
+    <!-- Avatar Upload + Preview Section -->
     <div class="md:w-1/3 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700 pb-6 md:pb-0">
       <div class="relative w-48 h-48 mb-4">
         <img id="avatarPreview" 
@@ -41,7 +41,7 @@ unset($_SESSION['add-user-data']);
              class="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm bg-gray-50 dark:bg-[#1f2d33] dark:text-gray-200 cursor-pointer focus:ring focus:ring-green-300">
     </div>
 
-    <!-- 🧾 Form Fields Section -->
+    <!-- Form Fields Section -->
     <div class="md:w-2/3">
       <h2 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-100 border-b border-gray-200 dark:border-gray-600 pb-2">Add New User</h2>
 
@@ -114,7 +114,7 @@ unset($_SESSION['add-user-data']);
     </div>
   </div>
 
-  <!-- 📸 JavaScript for Avatar Preview -->
+  <!--  JavaScript for Avatar Preview -->
   <script>
     const avatarInput = document.getElementById('avatarInput');
     const avatarPreview = document.getElementById('avatarPreview');

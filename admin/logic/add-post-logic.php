@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
         $thumbnail_tmp_name = $thumbnail['tmp_name'];
         $thumbnail_destination = $uploadDir . $thumbnail_name;
 
-        // ✅ Allow all image MIME types
+        // Allow all image MIME types
         $allowed_mime_types = [
             'image/png', 'image/jpeg', 'image/jpg', 'image/gif',
             'image/webp', 'image/bmp', 'image/tiff', 'image/svg+xml'

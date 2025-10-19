@@ -12,13 +12,13 @@ if (isset($_GET['id'])) {
     if ($result && mysqli_num_rows($result) === 1) {
         $post = mysqli_fetch_assoc($result);
 
-        // 1️⃣ Delete Thumbnail
+        // 1️ Delete Thumbnail
         $thumbnailPath = '../../images/' . $post['thumbnail'];
         if (file_exists($thumbnailPath)) {
             unlink($thumbnailPath);
         }
 
-        // 2️⃣ Delete TinyMCE inline images from body
+        // 2️ Delete TinyMCE inline images from body
         $body = $post['body'];
 
         // Extract image src attributes that point to /images/posts/

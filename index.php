@@ -7,7 +7,7 @@
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./css/style.css">
-  <script src="/js/main.js" defer></script>
+  <script src="./js/main.js" defer></script>
 </head>
 <body class="bg-white dark:bg-gray-900 transition-colors">
 

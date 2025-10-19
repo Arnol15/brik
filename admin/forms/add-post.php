@@ -17,7 +17,7 @@ unset($_SESSION['add-post-data']);
   <title>Add New Post</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ TinyMCE -->
+  <!--  TinyMCE -->
   <script src="<?= ROOT_URL ?>js/tinymce/tinymce.min.js"></script>
   <script>
     tinymce.init({
@@ -29,7 +29,7 @@ unset($_SESSION['add-post-data']);
       skin: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oxide-dark' : 'oxide',
       content_css: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
 
-      /* ✅ Allow image upload */
+      /* Allow image upload */
       images_upload_url: '../logic/upload-image.php',  // must exist
       automatic_uploads: true,
       file_picker_types: 'image',

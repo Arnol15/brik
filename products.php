@@ -135,7 +135,6 @@ $products = [
     onclick="document.documentElement.classList.toggle('dark')" 
     class="fixed bottom-6 right-6 bg-fahariGreen text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition"
   >
-    🌙
   </button>
 
   <!-- Sidebar Script -->

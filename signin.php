@@ -1,7 +1,7 @@
 <?php
 require 'config/database.php';
 
-// ✅ Start session only if not already active
+// Start session only if not already active
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -9,7 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $error = null;
 $loading = false;
 
-// ✅ Handle form submission
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $loading = true;
 
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($email) || empty($password)) {
         $error = "Email and password are required.";
     } else {
-        // ✅ Query the user record
+        // Query the user record
         $query = "SELECT * FROM users WHERE email = ? LIMIT 1";
         $stmt = mysqli_prepare($connection, $query);
 
@@ -31,9 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($result && mysqli_num_rows($result) === 1) {
                 $user = mysqli_fetch_assoc($result);
 
-                // ✅ Verify password
+                // Verify password
                 if (password_verify($password, $user['password'])) {
-                    // ✅ Successful login
+                    // Successful login
                     $_SESSION['user-id'] = $user['id'];
                     $_SESSION['username'] = $user['username'];
                     $_SESSION['user_avatar'] = $user['avatar'] ?? 'default.png';
@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <!-- Title -->
     <h2 class="text-2xl font-semibold mb-8 text-gray-800 dark:text-white">Welcome Back</h2>
 
-    <!-- ✅ Session Expired Message -->
+    <!-- Session Expired Message -->
     <?php if (isset($_GET['session']) && $_GET['session'] === 'expired'): ?>
       <div class="w-full mb-4 text-sm text-yellow-700 dark:text-yellow-400 text-center font-medium bg-yellow-100 dark:bg-yellow-800/40 rounded-md p-3">
         Your session has expired due to inactivity. Please sign in again.

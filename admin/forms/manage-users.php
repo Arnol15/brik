@@ -1,5 +1,5 @@
 <?php
-// 🔒 Fetch users excluding the logged-in admin
+// Fetch users excluding the logged-in admin
 $current_admin_id = $_SESSION['user-id'];
 $query = "SELECT * FROM users WHERE NOT id=$current_admin_id";
 $users = mysqli_query($connection, $query);
@@ -32,7 +32,7 @@ $usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
         <?php endif; ?>
     </div>
 
-    <!-- 🧭 Main Manage Users Section -->
+    <!--  Main Manage Users Section -->
     <div class="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-6">
             <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-gray-100">Manage Users</h2>
@@ -45,7 +45,7 @@ $usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
         </div>
 
         <?php if (count($usersArray) > 0): ?>
-            <!-- 📱 Responsive Table Wrapper -->
+            <!--  Responsive Table Wrapper -->
             <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
                 <table class="min-w-full text-sm text-left">
                     <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
@@ -85,7 +85,7 @@ $usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
                 </table>
             </div>
 
-            <!-- 📄 Pagination Controls -->
+            <!--  Pagination Controls -->
             <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-3 mt-6">
                 <button id="prevBtn"
                         class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-md disabled:opacity-50 hover:bg-gray-300 dark:hover:bg-gray-500 transition"
@@ -102,7 +102,7 @@ $usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
     </div>
 </section>
 
-<!-- ⚙️ Search + Pagination Script -->
+<!--  Search + Pagination Script -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const rows = Array.from(document.querySelectorAll("#userTableBody tr"));
