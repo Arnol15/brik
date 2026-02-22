@@ -6,7 +6,7 @@
         <!-- Left Content -->
         <div class="z-20 flex w-full flex-1 flex-col items-center lg:items-start justify-center gap-6 lg:gap-12 text-center lg:text-left">
             <h2 class="bold-20 lg:bold-32 xl:max-w-[320px]">
-                Quality service for <br class="hidden lg:block"> Optimized Performance
+                Quality service for <br class="hidden lg:block"> enhanced Productivity. 
             </h2>
             <p class="regular-16 text-gray-600 dark:text-gray-300">
                 Follow us on our Socials.

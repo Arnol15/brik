@@ -1,13 +1,26 @@
 <?php
-// Fetch users excluding the logged-in admin
-$current_admin_id = $_SESSION['user-id'];
-$query = "SELECT * FROM users WHERE NOT id=$current_admin_id";
-$users = mysqli_query($connection, $query);
-$usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once __DIR__ . '/../../config/database.php';
+
+// --- Get current admin ID safely ---
+$current_admin_id = $_SESSION['user-id'] ?? 0;
+
+// --- Initialize users array ---
+$usersArray = [];
+
+// --- Fetch users (exclude current admin) ---
+$query = "SELECT * FROM users WHERE id != $current_admin_id ORDER BY id DESC";
+$result = mysqli_query($connection, $query);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $usersArray = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
 ?>
 
-<section class="w-full px-4 py-6">
-    <!-- Alert Messages -->
+<section class="dashboard">
+    <!-- ✅ Alert Messages -->
     <div class="max-w-5xl mx-auto mb-4 space-y-2">
         <?php if (isset($_SESSION['add-user-success'])): ?>
             <div class="p-3 rounded-md bg-green-100 text-green-800 border border-green-300 text-sm">
@@ -32,10 +45,11 @@ $usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
         <?php endif; ?>
     </div>
 
-    <!--  Main Manage Users Section -->
-    <div class="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6">
+    <!-- ✅ Manage Users Container -->
+    <div class="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 overflow-y-auto max-h-[75vh]">
+        <!-- Header and Search -->
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-6">
-            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-gray-100">Manage Users</h2>
+            <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">Manage Users</h2>
             <input
                 type="text"
                 id="searchInput"
@@ -44,8 +58,8 @@ $usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
             >
         </div>
 
-        <?php if (count($usersArray) > 0): ?>
-            <!--  Responsive Table Wrapper -->
+        <?php if (!empty($usersArray)): ?>
+            <!-- ✅ Table Container -->
             <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
                 <table class="min-w-full text-sm text-left">
                     <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
@@ -72,6 +86,7 @@ $usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
                                 </td>
                                 <td class="p-3 text-center">
                                     <a href="<?= ROOT_URL ?>admin/delete-user.php?id=<?= $user['id']; ?>"
+                                       onclick="return confirm('Are you sure you want to delete this user?')"
                                        class="inline-block px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition text-xs sm:text-sm">
                                         Delete
                                     </a>
@@ -85,7 +100,7 @@ $usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
                 </table>
             </div>
 
-            <!--  Pagination Controls -->
+            <!-- ✅ Pagination Controls -->
             <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-3 mt-6">
                 <button id="prevBtn"
                         class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-md disabled:opacity-50 hover:bg-gray-300 dark:hover:bg-gray-500 transition"
@@ -102,7 +117,7 @@ $usersArray = mysqli_fetch_all($users, MYSQLI_ASSOC);
     </div>
 </section>
 
-<!--  Search + Pagination Script -->
+<!-- ✅ Search + Pagination Script -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const rows = Array.from(document.querySelectorAll("#userTableBody tr"));

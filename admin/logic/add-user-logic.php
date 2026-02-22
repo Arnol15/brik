@@ -67,7 +67,7 @@ if (isset($_POST['submit'])) {
 
                 if ($stmt->affected_rows > 0) {
                     $_SESSION['add-user-success'] = "$firstname $lastname added successfully!";
-                    header('location: ' . ROOT_URL . 'admin/forms/add-user.php');
+                    header('location: ../index.php?page=Add User');
                     exit;
                 } else {
                     $_SESSION['add-user'] = "Failed to add user. Try again.";
@@ -79,10 +79,10 @@ if (isset($_POST['submit'])) {
     // On error — redirect back with form data
     if (isset($_SESSION['add-user'])) {
         $_SESSION['add-user-data'] = $_POST;
-        header('location: ' . ROOT_URL . 'admin/forms/add-user.php');
+        header('location: ../index.php?page=Add User');
         exit;
     }
 } else {
-    header('location: ' . ROOT_URL . 'admin/forms/add-user.php');
+    header('location: ../index.php?page=Add User');
     exit;
 }

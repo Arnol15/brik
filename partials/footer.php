@@ -33,18 +33,33 @@ require_once __DIR__ .'/../constants/statics.php';
           </div>
         <?php endforeach; ?>
 
-        <!-- Contact Info -->
+      <!-- Contact Info -->
         <div class="flex flex-col gap-5 min-w-[140px]">
           <h4 class="bold-18 whitespace-nowrap text-white">
             <?= htmlspecialchars($FOOTER_CONTACT_INFO["title"]) ?>
           </h4>
+
           <?php foreach ($FOOTER_CONTACT_INFO["links"] as $link): ?>
-            <a href="/" class="flex flex-col sm:flex-row gap-2 lg:gap-4 text-gray-200 hover:text-green-300 transition-colors duration-200">
+
+            <?php
+              // Detect if the contact is an email
+              if (filter_var($link["value"], FILTER_VALIDATE_EMAIL)) {
+                $href = "mailto:" . htmlspecialchars($link["value"]);
+              } else {
+                // Assume phone → generate WhatsApp link
+                $cleanNumber = preg_replace('/\D/', '', $link["value"]); // remove spaces, +, hyphens
+                $href = "https://wa.me/" . $cleanNumber;
+              }
+            ?>
+
+            <a href="<?= $href ?>" target="_blank" class="flex flex-col sm:flex-row gap-2 lg:gap-4 text-gray-200 hover:text-green-300 transition-colors duration-200">
               <p class="whitespace-nowrap"><?= htmlspecialchars($link["label"]) ?>:</p>
               <p class="medium-14 whitespace-nowrap"><?= htmlspecialchars($link["value"]) ?></p>
             </a>
+
           <?php endforeach; ?>
         </div>
+
 
         <!-- Socials -->
         <div class="flex flex-col gap-5 min-w-[120px]">

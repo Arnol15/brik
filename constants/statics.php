@@ -25,7 +25,7 @@ $FOOTER_LINKS = [
 $FOOTER_CONTACT_INFO = [
     "title" => "Contact",
     "links" => [
-        ["label" => "Email", "value" => "support@fahari.com"],
+        ["label" => "Email", "value" => "support@fahariai.com"],
         ["label" => "Phone", "value" => "+254 759394757"],
     ]
 ];

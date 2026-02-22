@@ -1,6 +1,13 @@
-<?php
+<?php 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+
+
+
+//  Ensure CSRF token exists for secure uploads
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
 // Keep form data if validation fails
@@ -8,6 +15,7 @@ $title = $_SESSION['add-post-data']['title'] ?? '';
 $body = $_SESSION['add-post-data']['body'] ?? '';
 unset($_SESSION['add-post-data']);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,47 +25,90 @@ unset($_SESSION['add-post-data']);
   <title>Add New Post</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!--  TinyMCE -->
-  <script src="<?= ROOT_URL ?>js/tinymce/tinymce.min.js"></script>
-  <script>
-    tinymce.init({
-      selector: '#body',
-      height: 400,
-      menubar: false,
-      plugins: 'link image code lists table media',
-      toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media | code',
-      skin: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oxide-dark' : 'oxide',
-      content_css: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
+  <!--  TinyMCE (self-hosted production build) -->
+  <script src="../../js/tinymce/tinymce.min.js"></script>
 
-      /* Allow image upload */
-      images_upload_url: '../logic/upload-image.php',  // must exist
-      automatic_uploads: true,
-      file_picker_types: 'image',
-      file_picker_callback: function (callback, value, meta) {
-        if (meta.filetype === 'image') {
-          const input = document.createElement('input');
-          input.setAttribute('type', 'file');
-          input.setAttribute('accept', 'image/*');
-          input.onchange = function () {
-            const file = this.files[0];
-            const reader = new FileReader();
-            reader.onload = function () {
-              const id = 'blobid' + (new Date()).getTime();
-              const blobCache = tinymce.activeEditor.editorUpload.blobCache;
-              const base64 = reader.result.split(',')[1];
-              const blobInfo = blobCache.create(id, file, base64);
-              blobCache.add(blobInfo);
-              callback(blobInfo.blobUri(), { title: file.name });
-            };
-            reader.readAsDataURL(file);
-          };
-          input.click();
-        }
-      },
-      promotion: false,
-      license_key: 'gpl'
-    });
-  </script>
+<script>
+tinymce.init({
+  selector: '#body',
+  height: 450,
+  menubar: true,
+  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+  toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | removeformat code',
+  branding: false,
+  promotion: false,
+  license_key: 'gpl',
+
+  /*  Image upload settings */
+  images_upload_url: 'logic/upload-image.php',
+  automatic_uploads: true,
+  file_picker_types: 'image',
+
+  /*  Secure CSRF token upload */
+  images_upload_handler: function (blobInfo, success, failure, progress) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'logic/upload-image.php');
+    xhr.withCredentials = true;
+
+    xhr.upload.onprogress = function (e) {
+      progress(e.loaded / e.total * 100);
+    };
+
+    xhr.onload = function () {
+      if (xhr.status < 200 || xhr.status >= 300) {
+        failure('HTTP Error: ' + xhr.status);
+        return;
+      }
+
+      const json = JSON.parse(xhr.responseText);
+      if (!json || typeof json.location !== 'string') {
+        failure('Invalid JSON: ' + xhr.responseText);
+        return;
+      }
+
+      success(json.location);
+    };
+
+    xhr.onerror = function () {
+      failure('Image upload failed due to a network error.');
+    };
+
+    const formData = new FormData();
+    formData.append('file', blobInfo.blob(), blobInfo.filename());
+    // send CSRF token from PHP session
+    formData.append('csrf_token', '<?= $_SESSION['csrf_token'] ?? '' ?>');
+    xhr.send(formData);
+  },
+
+  /* Optional: manual image picker */
+  file_picker_callback: function (callback, value, meta) {
+    if (meta.filetype === 'image') {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+      input.onchange = function () {
+        const file = this.files[0];
+        const reader = new FileReader();
+        reader.onload = function () {
+          const id = 'blobid' + (new Date()).getTime();
+          const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+          const base64 = reader.result.split(',')[1];
+          const blobInfo = blobCache.create(id, file, base64);
+          blobCache.add(blobInfo);
+          callback(blobInfo.blobUri(), { title: file.name });
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    }
+  },
+
+  /* Light/Dark auto theme */
+  skin: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oxide-dark' : 'oxide',
+  content_css: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
+});
+</script>
+
 </head>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
@@ -78,8 +129,6 @@ unset($_SESSION['add-post-data']);
 
     <!-- Form -->
     <form id="addPostForm" action="logic/add-post-logic.php" method="POST" enctype="multipart/form-data" class="space-y-6">
-
-
       <!-- Title -->
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Post Title</label>
@@ -154,6 +203,18 @@ unset($_SESSION['add-post-data']);
       }
     }
   </script>
+  <script>
+  // Ensure TinyMCE content syncs before submission
+  document.getElementById('addPostForm').addEventListener('submit', function (e) {
+    tinymce.triggerSave(); // update the hidden textarea with editor content
+    const content = tinymce.get('body').getContent({ format: 'text' }).trim();
+
+    if (!content) {
+      e.preventDefault();
+      alert('Please write some content before publishing.');
+    }
+  });
+</script>
 
 </body>
 </html>

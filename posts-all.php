@@ -8,17 +8,18 @@ $posts = mysqli_query($connection, "SELECT * FROM posts ORDER BY created_at DESC
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Posts | Brik</title>
+    <title>All Posts | Fahari</title>
+    <link rel="stylesheet" href="./css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900">
 
 <?php include __DIR__ . '/partials/navbar.php'; ?>
 
-<section class="py-16 px-4 md:px-12 lg:px-24">
+<section class="py-16 px-4 pt-24 md:px-12 lg:px-24">
     <div class="text-center mb-10">
         <h1 class="text-3xl md:text-4xl font-bold text-[#014d3a] mb-2">Our Posts</h1>
-        <p class="text-gray-600 dark:text-gray-300">Insights, updates, and stories from the Brik engineering team</p>
+        <p class="text-gray-600 dark:text-gray-300">Insights, updates, and stories from the Fahari engineering team</p>
     </div>
 
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -26,7 +27,7 @@ $posts = mysqli_query($connection, "SELECT * FROM posts ORDER BY created_at DESC
             <?php while ($post = mysqli_fetch_assoc($posts)): ?>
                 <div class="bg-white dark:bg-[#2a3b45] shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition">
                     <?php if (!empty($post['thumbnail'])): ?>
-                        <img src="<?= htmlspecialchars($post['thumbnail']) ?>" alt="Post Image" class="w-full h-48 object-cover">
+                        <img src=".<?= htmlspecialchars($post['thumbnail']) ?>" alt="Post Image" class="w-full h-48 object-cover">
                     <?php endif; ?>
                     <div class="p-6">
                         <h2 class="text-xl font-semibold text-[#014d3a] mb-2"><?= htmlspecialchars($post['title']) ?></h2>
@@ -45,7 +46,7 @@ $posts = mysqli_query($connection, "SELECT * FROM posts ORDER BY created_at DESC
     </div>
 </section>
 
-<?php include __DIR__ . '/partials/infooter.php'; ?>
+<?php include __DIR__ . '/partials/footer.php'; ?>
 
 </body>
 </html>

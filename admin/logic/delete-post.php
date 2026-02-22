@@ -12,16 +12,14 @@ if (isset($_GET['id'])) {
     if ($result && mysqli_num_rows($result) === 1) {
         $post = mysqli_fetch_assoc($result);
 
-        // 1️ Delete Thumbnail
-        $thumbnailPath = '../../images/' . $post['thumbnail'];
+        // 1️⃣ Delete Thumbnail
+        $thumbnailPath = '../../images/posts/' . $post['thumbnail'];
         if (file_exists($thumbnailPath)) {
             unlink($thumbnailPath);
         }
 
-        // 2️ Delete TinyMCE inline images from body
+        // 2️⃣ Delete TinyMCE inline images from body (if any)
         $body = $post['body'];
-
-        // Extract image src attributes that point to /images/posts/
         preg_match_all('/src=["\']([^"\']*images\/posts\/[^"\']+)["\']/', $body, $matches);
         $imagePaths = $matches[1] ?? [];
 
@@ -29,13 +27,14 @@ if (isset($_GET['id'])) {
             // Remove ROOT_URL if present
             $imgFile = str_replace(ROOT_URL, '../../', $imgUrl);
 
-            // Ensure file path is safe and inside the project directory
-            if (file_exists($imgFile) && str_starts_with(realpath($imgFile), realpath('../../images/posts'))) {
-                unlink($imgFile);
+            // Ensure file path is valid and safe
+            $realPath = realpath($imgFile);
+            if ($realPath && str_starts_with($realPath, realpath('../../images/posts'))) {
+                unlink($realPath);
             }
         }
 
-        // 3️⃣ Finally delete the post
+        // 3️⃣ Delete the post itself
         $deleteQuery = "DELETE FROM posts WHERE id = $id LIMIT 1";
         mysqli_query($connection, $deleteQuery);
 
@@ -51,6 +50,7 @@ if (isset($_GET['id'])) {
     $_SESSION['delete-post'] = "Invalid request.";
 }
 
-header('Location: ../manage-posts.php');
+// ✅ Redirect back to manage-posts (inside admin/forms/)
+header('Location: ' . ROOT_URL . 'admin/forms/manage-posts.php');
 exit;
 ?>

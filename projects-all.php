@@ -8,14 +8,15 @@ $projects = mysqli_query($connection, "SELECT * FROM projects ORDER BY created_a
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Projects | Brik</title>
+    <title>All Projects | Fahari </title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body class="bg-gray-50 dark:bg-gray-900">
 
 <?php include __DIR__ . '/partials/navbar.php'; ?>
 
-<section class="py-16 px-4 md:px-12 lg:px-24">
+<section class="py-16 px-4 pt-24 md:px-12 lg:px-24">
     <div class="text-center mb-10">
         <h1 class="text-3xl md:text-4xl font-bold text-[#014d3a] mb-2">Our Projects</h1>
         <p class="text-gray-600 dark:text-gray-300">Explore our engineering, automation, and integration projects</p>
@@ -42,7 +43,7 @@ $projects = mysqli_query($connection, "SELECT * FROM projects ORDER BY created_a
     </div>
 </section>
 
-<?php include __DIR__ . '/partials/infooter.php'; ?>
+<?php include __DIR__ . '/partials/footer.php'; ?>
 
 </body>
 </html>

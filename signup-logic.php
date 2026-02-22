@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
         } elseif ($avatar_size > 2 * 1024 * 1024) { // 2MB
             $_SESSION['signup'] = "Image too large. Must be less than 2MB.";
         } else {
-            $upload_dir = __DIR__ . '/images/';
+            $upload_dir = __DIR__ . './images/authors/';
             if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
             move_uploaded_file($avatar_tmp, $upload_dir . $avatar_name);
         }

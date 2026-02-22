@@ -27,14 +27,15 @@
 
     <!-- Buttons -->
     <div class="flex flex-col w-full gap-3 mt-8 sm:flex-row">
-      <a href="/brochure.pdf" download
+      <a href="/assets/fahari.jpg" download
         class="w-auto px-6 py-3 border border-gray-400 text-gray-700 dark:text-gray-300 hover:bg-green-500 hover:text-black transition rounded-full text-center">
         Download Brochure
       </a>
-      <a href="#services"
-        class="w-auto px-6 py-3 bg-green-700 text-white hover:bg-green-500 transition rounded-full text-center">
-        What Fahari does?
-      </a>
+     <a href="mailto:support@fahariai.com?subject=Request%20a%20Quote&body=Hello%20Fahari%20Team,%0A%0AI%20would%20like%20to%20request%20a%20quote%20for..."
+       class="w-auto px-6 py-3 bg-green-700 text-white hover:bg-green-500 transition rounded-full text-center">
+       Request a Quote
+    </a>
+
     </div>
 
     <!-- Overlay Card (mobile view only) -->

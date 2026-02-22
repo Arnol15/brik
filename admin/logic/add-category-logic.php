@@ -1,41 +1,47 @@
 <?php
-require '../../config/database.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-if (isset($_POST['submit'])) {
-    $title = filter_var($_POST['title'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $description = filter_var($_POST['description'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+require_once __DIR__ . '/../../config/database.php';
 
-    // validate input
-    if (!$title) {
-        $_SESSION['add-category'] = "Category title is required.";
-    } elseif (!$description) {
-        $_SESSION['add-category'] = "Category description is required.";
-    }
+// Check if form submitted
+if (isset($_POST['title'], $_POST['description'])) {
+    $title = trim($_POST['title']);
+    $description = trim($_POST['description']);
 
-    // if any error, go back
-    if (isset($_SESSION['add-category'])) {
-        $_SESSION['add-category-data'] = $_POST;
-        header('location: ../forms/add-category.php');
-        exit;
-    }
-
-    // insert into database
-    $query = "INSERT INTO categories (title, description) VALUES (?, ?)";
-    $stmt = mysqli_prepare($connection, $query);
-    mysqli_stmt_bind_param($stmt, 'ss', $title, $description);
-    $inserted = mysqli_stmt_execute($stmt);
-
-    if ($inserted) {
-        $_SESSION['add-category-success'] = "Category '$title' added successfully!";
-        header('location: ../forms/manage-categories.php');
-        exit;
+    // Validate input
+    if ($title === '' || $description === '') {
+        $message = "All fields are required.";
+        $_SESSION['add-category'] = $message;
     } else {
-        $_SESSION['add-category'] = "Something went wrong. Please try again.";
-        header('location: ../forms/add-category.php');
+        // Insert into database
+        $stmt = mysqli_prepare($connection, "INSERT INTO categories (title, description) VALUES (?, ?)");
+        mysqli_stmt_bind_param($stmt, 'ss', $title, $description);
+        $insertSuccess = mysqli_stmt_execute($stmt);
+
+        if ($insertSuccess) {
+            $message = "Category added successfully.";
+            $_SESSION['add-category-success'] = $message;
+        } else {
+            $message = "Database error: " . mysqli_error($connection);
+            $_SESSION['add-category'] = $message;
+        }
+
+        mysqli_stmt_close($stmt);
+    }
+
+    // If request is from AJAX, return message only (no redirect)
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        echo $message;
         exit;
     }
-} else {
-    header('location: ../forms/add-category.php');
+
+    // Otherwise, redirect normally
+    header('Location: ../index.php?page=Add+Category');
     exit;
 }
+
+// No POST data
+http_response_code(400);
+echo "Invalid request.";
